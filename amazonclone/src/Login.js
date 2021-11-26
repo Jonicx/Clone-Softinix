@@ -1,21 +1,20 @@
-import { Link } from 'react-router-dom'
+import { Link, useHistory} from 'react-router-dom'
 import React, { useState } from 'react'
 import './Login.css'
+import { auth } from './firebase';
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const history = useHistory("");
 
     const signIn = e =>{
         e.preventDefault();//prevents page from refreshing after pressing button
-
-        //Firebaseeeeeeeeeee
-    }
-
-    const register = e =>{
-        e.preventDefault();
-
-        //Firebaseeeeeeeeeee
+        auth.signInWithEmailAndPassword(email, password)
+            .then(auth => {
+                history.push("/")
+            })
+            .catch(error => alert(error.message))
     }
 
     return (
@@ -52,7 +51,10 @@ function Login() {
                     Notice.
                 </p>
 
-                <button onClick={register} className="login__registerButton">Create Your Amazon Account </button>
+                <Link to="/register">
+                    <button  className="login__registerButton">Create Your Amazon Account </button>
+                </Link>
+                
             </div>
         </div>
     )
